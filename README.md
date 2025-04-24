@@ -1,8 +1,12 @@
 # Hand Cricket
-A Flutter-based mobile game simulating the classic hand cricket game where players choose numbers (1–6) to score runs.
+A Flutter-based game simulating the classic hand cricket game where players choose numbers (1–6) to score runs.
+
+## Gameplay
+![Demo Gif 1](assets/demo/hand_cricket_demo_1.gif)
+![Demo Gif 2](assets/demo/hand_cricket_demo_2.gif)
 
 ## Tech Stack
-- Flutter: Cross-platform UI framework.
+- Flutter & Dart: Core development.
 - Riverpod: State management for game and overlay states.
 - Rive: Hand animations for moves.
 
@@ -24,8 +28,10 @@ flutter pub get
 flutter run
 ```
 
+The app can run on all the Flutter supported platforms.
+
 ## Project Structure
-Using the MVVM architecture.
+Using the MVVM architecture with declarative code for UI and state updates.
 
 - ***lib/models/***: Data models (GameState, PlayState, OverlayState).
 - ***lib/viewmodels/***: Riverpod state management (GameViewModel, OverlayViewModel).
