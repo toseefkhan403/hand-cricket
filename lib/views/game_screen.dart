@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hand_cricket/models/play_state.dart';
 import 'package:hand_cricket/utils/utils.dart';
 import 'package:hand_cricket/views/game_overlay.dart';
-import 'package:hand_cricket/views/rive_animation.dart';
+import 'package:hand_cricket/views/hand_rive_animation.dart';
 import 'package:hand_cricket/views/score_board.dart';
 import '../viewmodels/game_view_model.dart';
 import '../viewmodels/timer_provider.dart';
@@ -82,16 +82,16 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                         Expanded(
                           child: Transform.flip(
                             flipX: true,
-                            child: PlayRiveAnimation(
+                            child: HandRiveAnimation(
                               animationName: getAnimationNameFromMove(
                                 gameState.playerMove,
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 4),
                         Expanded(
-                          child: PlayRiveAnimation(
+                          child: HandRiveAnimation(
                             animationName: getAnimationNameFromMove(
                               gameState.botMove,
                             ),

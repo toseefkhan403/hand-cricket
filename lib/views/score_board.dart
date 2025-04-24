@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hand_cricket/models/game_state.dart';
 import 'package:hand_cricket/models/play_state.dart';
@@ -84,21 +86,16 @@ class Scoreboard extends StatelessWidget {
   Widget build(BuildContext context) {
     final userBatting = gameState.playState == PlayState.userBatting;
     final botBatting = gameState.playState == PlayState.botBatting;
-    final isGameEnded =
-        gameState.playState == PlayState.botWon ||
-        gameState.playState == PlayState.userWon ||
-        gameState.playState == PlayState.gameOver;
 
-    String toWinText = '';
-    if (userBatting) {
-      toWinText = 'Score: ${gameState.playerTotalScore}';
-    } else if (botBatting) {
-      final runsNeeded =
-          gameState.playerTotalScore - gameState.botTotalScore + 1;
-      toWinText = 'To win: ${runsNeeded > 0 ? runsNeeded : 0}';
-    } else if (isGameEnded) {
-      toWinText = 'Game Over';
-    }
+    final toWinText = switch (gameState.playState) {
+      PlayState.userBatting => 'Score: ${gameState.playerTotalScore}',
+      PlayState.botBatting =>
+        'To win: ${max(0, gameState.playerTotalScore - gameState.botTotalScore + 1)}',
+      PlayState.botWon ||
+      PlayState.userWon ||
+      PlayState.gameOver => 'Game Over',
+      _ => '',
+    };
 
     return Column(
       children: [
@@ -125,7 +122,7 @@ class Scoreboard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.yellow.shade800,
+              color: Color(0xffdeb150),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
