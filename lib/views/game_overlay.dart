@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hand_cricket/models/game_state.dart';
+import 'package:hand_cricket/utils/utils.dart';
 import 'package:hand_cricket/viewmodels/overlay_view_model.dart';
 import '../viewmodels/game_view_model.dart';
 import '../viewmodels/timer_provider.dart';
@@ -45,32 +46,74 @@ class _GameOverlayState extends ConsumerState<GameOverlay> {
                     ? Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        if (widget.gameState.isTimeOver)
+                          Text(
+                            'Your time ran out\nYou lost!',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        else if (widget.gameState.playerTotalScore <
+                            widget.gameState.botTotalScore)
+                          Text(
+                            'You lost',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        else if (widget.gameState.playerTotalScore >
+                            widget.gameState.botTotalScore)
+                          Image.asset(prefixAssetName('graphics/you_won.png'))
+                        else
+                          Text(
+                            'Draw',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        SizedBox(height: 12),
+                        if (!widget.gameState.isTimeOver)
+                          Text(
+                            'Final Score: ${widget.gameState.playerTotalScore} vs ${widget.gameState.botTotalScore}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                        const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
                             ref
                                 .read(gameViewModelProvider.notifier)
                                 .resetGame();
-                            ref.read(timerProvider.notifier).startTimer(() {
-                              ref
-                                  .read(gameViewModelProvider.notifier)
-                                  .timeExpired();
-                            });
+                            ref.read(timerProvider.notifier).startTimer();
                             ref
                                 .read(overlayStateProvider.notifier)
                                 .hideOverlay();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.yellow.shade800,
+                            backgroundColor: Color(0xffdeb150),
                             foregroundColor: Colors.black,
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           child: const Text(
                             'Play Again',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

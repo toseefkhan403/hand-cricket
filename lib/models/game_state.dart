@@ -9,6 +9,7 @@ class GameState {
   final int botMove;
   final int playerTotalScore;
   final int botTotalScore;
+  final bool isTimeOver;
 
   GameState({
     required this.playState,
@@ -19,6 +20,7 @@ class GameState {
     required this.botMove,
     required this.playerTotalScore,
     required this.botTotalScore,
+    this.isTimeOver = false,
   });
 
   factory GameState.initial() {
@@ -31,6 +33,7 @@ class GameState {
       botMove: 0,
       playerTotalScore: 0,
       botTotalScore: 0,
+      isTimeOver: false,
     );
   }
 
@@ -43,6 +46,7 @@ class GameState {
     int? botMove,
     int? playerTotalScore,
     int? botTotalScore,
+    bool? isTimeOver,
   }) {
     return GameState(
       playState: playState ?? this.playState,
@@ -53,6 +57,7 @@ class GameState {
       botMove: botMove ?? this.botMove,
       playerTotalScore: playerTotalScore ?? this.playerTotalScore,
       botTotalScore: botTotalScore ?? this.botTotalScore,
+      isTimeOver: isTimeOver ?? this.isTimeOver,
     );
   }
 }

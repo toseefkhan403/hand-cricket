@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hand_cricket/utils/utils.dart';
 import 'package:rive/rive.dart';
 
-class PlayOneShotAnimation extends StatefulWidget {
+class PlayRiveAnimation extends StatefulWidget {
   final String animationName;
 
-  const PlayOneShotAnimation({super.key, required this.animationName});
+  const PlayRiveAnimation({super.key, required this.animationName});
 
   @override
-  PlayOneShotAnimationState createState() => PlayOneShotAnimationState();
+  PlayRiveAnimationState createState() => PlayRiveAnimationState();
 }
 
-class PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
+class PlayRiveAnimationState extends State<PlayRiveAnimation> {
   late OneShotAnimation _controller;
 
   @override
@@ -24,7 +25,7 @@ class PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
   }
 
   @override
-  void didUpdateWidget(covariant PlayOneShotAnimation oldWidget) {
+  void didUpdateWidget(covariant PlayRiveAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.animationName != widget.animationName) {
       setState(() {
@@ -36,7 +37,7 @@ class PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
   @override
   Widget build(BuildContext context) {
     return RiveAnimation.asset(
-      'graphics/hand_cricket.riv',
+      prefixAssetName('graphics/hand_cricket.riv'),
       controllers: [_controller],
       fit: BoxFit.contain,
     );

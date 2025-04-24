@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.6.1
+  google_fonts: ^6.2.1
   rive: ^0.13.20
 
 dev_dependencies:
@@ -19,6 +20,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-assets:
-  - assets/graphics/
+  assets:
+    - assets/graphics/

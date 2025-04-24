@@ -6,7 +6,15 @@ import '../models/game_state.dart';
 class GameViewModel extends StateNotifier<GameState> {
   GameViewModel() : super(GameState.initial());
 
+  bool _isProcessingMove = false;
+
   void userPlays(int move) {
+    if (_isProcessingMove) {
+      return;
+    }
+
+    _isProcessingMove = true;
+
     final botMove = _randomMove();
 
     state = state.copyWith(playerMove: move, botMove: botMove);
@@ -19,8 +27,10 @@ class GameViewModel extends StateNotifier<GameState> {
         _handleBotBatting(move, botMove);
       }
 
-      // reset moves to 0 (Idle) after processing
+      // Reset moves to 0 (Idle) after processing
       state = state.copyWith(playerMove: 0, botMove: 0);
+
+      _isProcessingMove = false;
     });
   }
 
@@ -30,7 +40,7 @@ class GameViewModel extends StateNotifier<GameState> {
 
     if (userMove == botMove) {
       updatedScores[currentBall] = userMove;
-      // exclude the current ball's score from total since player is out
+      // Exclude the current ball's score from total since player is out
       final totalScore = updatedScores
           .take(currentBall)
           .fold(0, (sum, score) => sum + score);
@@ -52,9 +62,10 @@ class GameViewModel extends StateNotifier<GameState> {
         newBallsPlayed >= 6
             ? state.copyWith(
               playerScores: updatedScores,
-              ballsPlayed: newBallsPlayed,
-              playState: PlayState.userOut,
+              ballsPlayed: 0, // Reset for bot innings
+              playState: PlayState.botBatting,
               playerTotalScore: totalScore,
+              botScores: List.filled(6, 0), // Initialize bot scores
             )
             : state.copyWith(
               playerScores: updatedScores,
@@ -71,7 +82,7 @@ class GameViewModel extends StateNotifier<GameState> {
 
     if (userMove == botMove) {
       updatedScores[currentBall] = botMove;
-      // exclude the current ball's score from total since bot is out
+      // Exclude the current ball's score from total since bot is out
       final totalScore = updatedScores
           .take(currentBall)
           .fold(0, (sum, score) => sum + score);
@@ -132,10 +143,11 @@ class GameViewModel extends StateNotifier<GameState> {
 
   void resetGame() {
     state = GameState.initial();
+    _isProcessingMove = false;
   }
 
   void timeExpired() {
-    state = state.copyWith(playState: PlayState.gameOver);
+    state = state.copyWith(playState: PlayState.gameOver, isTimeOver: true);
   }
 
   void _endGame() {

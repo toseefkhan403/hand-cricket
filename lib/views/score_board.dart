@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hand_cricket/models/game_state.dart';
 import 'package:hand_cricket/models/play_state.dart';
+import 'package:hand_cricket/utils/utils.dart';
 
 class Scoreboard extends StatelessWidget {
   const Scoreboard({super.key, required this.gameState});
@@ -28,7 +29,7 @@ class Scoreboard extends StatelessWidget {
         image:
             !isBatting
                 ? DecorationImage(
-                  image: const AssetImage('graphics/ball.png'),
+                  image: AssetImage(prefixAssetName('graphics/ball.png')),
                   fit: BoxFit.cover,
                   opacity: isPlayed ? 1.0 : 0.3,
                 )
@@ -65,10 +66,7 @@ class Scoreboard extends StatelessWidget {
               final score = index < scores.length ? scores[index] : null;
               final isPlayed = index < gameState.ballsPlayed;
               return Opacity(
-                opacity:
-                    isPlayed || isBatting
-                        ? 1.0
-                        : 0.5,
+                opacity: isPlayed || isBatting ? 1.0 : 0.5,
                 child: _buildScoreCircle(
                   score,
                   isBatting: isBatting,
@@ -99,8 +97,7 @@ class Scoreboard extends StatelessWidget {
           gameState.playerTotalScore - gameState.botTotalScore + 1;
       toWinText = 'To win: ${runsNeeded > 0 ? runsNeeded : 0}';
     } else if (isGameEnded) {
-      toWinText =
-          'Result: Player ${gameState.playerTotalScore} vs Bot ${gameState.botTotalScore}';
+      toWinText = 'Game Over';
     }
 
     return Column(
@@ -114,13 +111,15 @@ class Scoreboard extends StatelessWidget {
             _buildScoreGrid(gameState.botScores, isBatting: botBatting),
           ],
         ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Player', style: TextStyle(color: Colors.white)),
-            Text('Bot', style: TextStyle(color: Colors.white)),
-          ],
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Player', style: TextStyle(color: Colors.white)),
+              Text('Bot', style: TextStyle(color: Colors.white)),
+            ],
+          ),
         ),
         if (toWinText.isNotEmpty)
           Container(

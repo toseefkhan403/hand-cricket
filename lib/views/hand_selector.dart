@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hand_cricket/utils/utils.dart';
 
 class HandSelector extends StatelessWidget {
   final void Function(int) onSelected;
@@ -30,7 +31,7 @@ class HandSelector extends StatelessWidget {
                 child: InkWell(
                   onTap: () => onSelected(number),
                   child: Image.asset(
-                    'graphics/${_numberImages[i]}',
+                    prefixAssetName('graphics/${_numberImages[i]}'),
                     width: 60,
                     height: 60,
                   ),
@@ -50,7 +51,7 @@ class HandSelector extends StatelessWidget {
                 child: InkWell(
                   onTap: () => onSelected(number),
                   child: Image.asset(
-                    'graphics/${_numberImages[i + 3]}',
+                    prefixAssetName('graphics/${_numberImages[i + 3]}'),
                     width: 60,
                     height: 60,
                   ),
