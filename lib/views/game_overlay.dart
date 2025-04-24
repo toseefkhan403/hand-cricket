@@ -68,7 +68,12 @@ class _GameOverlayState extends ConsumerState<GameOverlay> {
                           )
                         else if (widget.gameState.playerTotalScore >
                             widget.gameState.botTotalScore)
-                          Image.asset(prefixAssetName('graphics/you_won.png'))
+                          Image.asset(
+                            prefixAssetName('graphics/you_won.png'),
+                            width: 300,
+                            height: 200,
+                            fit: BoxFit.contain,
+                          )
                         else
                           Text(
                             'Draw',

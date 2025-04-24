@@ -147,7 +147,9 @@ class GameViewModel extends StateNotifier<GameState> {
   }
 
   void timeExpired() {
-    state = state.copyWith(playState: PlayState.gameOver, isTimeOver: true);
+    if (state.playState != PlayState.gameOver) {
+      state = state.copyWith(playState: PlayState.gameOver, isTimeOver: true);
+    }
   }
 
   void _endGame() {
